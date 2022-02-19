@@ -1,0 +1,2 @@
+@echo off
+keytool -genkey -dname "CN=Carlem, OU=Home, O=Self Signed, L=Unknown, ST=Unknown, C=Unknown" -ext san="dns:localhost" -alias classmaster -keystore classmaster.p12 -storetype PKCS12 -keyalg RSA -storepass changeit -validity 3650 -keysize 2048
