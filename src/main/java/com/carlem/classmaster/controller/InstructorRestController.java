@@ -1,5 +1,6 @@
 package com.carlem.classmaster.controller;
 
+import com.carlem.classmaster.model.Instructor;
 import com.carlem.classmaster.persistence.InstructorEntity;
 import com.carlem.classmaster.persistence.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,16 @@ public class InstructorRestController {
     private InstructorRepository instructorRepository;
 
     @GetMapping("/instructor/all")
-    public ResponseEntity<List<InstructorEntity>> getAllInstructors() {
-        List<InstructorEntity> instructors = StreamSupport.stream(instructorRepository.findAll().spliterator(), false).collect(toList());
+    public ResponseEntity<List<Instructor>> getAllInstructors() {
+        List<Instructor> instructors = StreamSupport.stream(instructorRepository.findAll().spliterator(), false)
+                .map(InstructorEntity::toModel)
+                .collect(toList());
         return new ResponseEntity<>(instructors, OK);
     }
 
     @PostMapping("/instructor")
-    public ResponseEntity<Void> createInstructor(@Valid @RequestBody InstructorEntity instructor) {
-        instructorRepository.save(instructor);
+    public ResponseEntity<Void> createInstructor(@Valid @RequestBody Instructor instructor) {
+        instructorRepository.save(InstructorEntity.fromModel(instructor));
         return new ResponseEntity<>(CREATED);
     }
 }

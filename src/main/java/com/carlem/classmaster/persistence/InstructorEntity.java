@@ -1,5 +1,6 @@
 package com.carlem.classmaster.persistence;
 
+import com.carlem.classmaster.model.Instructor;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -12,9 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 @ToString
-@Entity
+@Entity(name="instructor")
 public class InstructorEntity {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -30,4 +30,12 @@ public class InstructorEntity {
 
     private LocalDate dateOfBirth;
 
+    public Instructor toModel() {
+        return new Instructor(id, firstName, lastName, emailAddress, emailAddress, dateOfBirth);
+    }
+
+    public static InstructorEntity fromModel(Instructor instructor) {
+        return new InstructorEntity(instructor.id(), instructor.firstName(), instructor.lastName(), instructor.emailAddress(),
+                instructor.phoneNumber(), instructor.dateOfBirth());
+    }
 }
