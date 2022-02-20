@@ -20,12 +20,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/instructor")
 public class InstructorRestController {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    @GetMapping("/instructor/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Instructor>> getAllInstructors() {
         List<Instructor> instructors = StreamSupport.stream(instructorRepository.findAll().spliterator(), false)
                 .map(InstructorEntity::toModel)
@@ -33,7 +33,7 @@ public class InstructorRestController {
         return new ResponseEntity<>(instructors, OK);
     }
 
-    @PostMapping("/instructor")
+    @PostMapping("/")
     public ResponseEntity<Void> createInstructor(@Valid @RequestBody Instructor instructor) {
         instructorRepository.save(InstructorEntity.fromModel(instructor));
         return new ResponseEntity<>(CREATED);
